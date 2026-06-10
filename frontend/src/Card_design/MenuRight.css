@@ -1,0 +1,87 @@
+.menuRightContainer {
+  width: 450px;
+  background: #111;
+  padding: 25px;
+  border-radius: 20px;
+  color: #ffa600;
+  position: relative;
+  border: 6px solid #ffa600;
+  overflow: hidden;
+}
+
+/* Menu Title */
+.menuTitle {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Section Title */
+.sectionTitle {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Main sections layout */
+.section {
+  margin-bottom: 25px;
+}
+
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.itemList li {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  padding: 3px 0;
+}
+
+/* Image Placeholder Circle */
+.imageCircle {
+  width: 150px;
+  height: 150px;
+  border: 5px solid #ffa600;
+  border-radius: 50%;
+  background: #ffffff22;
+  margin: 20px auto;
+}
+
+/* Decorative Shapes */
+
+.decor-chili {
+  background: url("https://pngimg.com/uploads/chilli/chilli_PNG2370.png") no-repeat center/contain;
+  width: 80px;
+  height: 40px;
+  position: absolute;
+  top: 160px;
+  right: 40px;
+}
+
+.decor-leaf1,
+.decor-leaf2,
+.decor-leaf3 {
+  background: url("https://pngimg.com/uploads/basil/basil_PNG26.png") no-repeat center/contain;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+}
+
+.decor-leaf1 {
+  top: 290px;
+  left: 40px;
+}
+
+.decor-leaf2 {
+  bottom: 120px;
+  right: 40px;
+}
+
+.decor-leaf3 {
+  bottom: 40px;
+  left: 90px;
+}

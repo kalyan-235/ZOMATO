@@ -1,0 +1,203 @@
+ [
+  {
+    "name": "Rjm Special Chicken Pulao Mini",
+    "image": "IMAGES/chicken_pulao.webp",
+    "oldPrice": 130,
+    "price": 99,
+    "rating": 4.5,
+    "reviews": 229,
+    "restaurant": "The Rajamahendra",
+    "time": "15–20 mins",
+    "description": "Special mini chicken pulao cooked with mild spices."
+  },
+  {
+    "name": "Chicken 65",
+    "image": "IMAGES/chicken_65.webp",
+    "oldPrice": 240,
+    "price": 129,
+    "rating": 4.4,
+    "reviews": 27,
+    "restaurant": "Mana Desi Kitchen",
+    "time": "30–35 mins"
+  },
+  {
+    "name": "Double Egg Fried Rice",
+    "image": "IMAGES/egg_fried_rice.webp",
+    "oldPrice": 120,
+    "price": 99,
+    "rating": 4.2,
+    "reviews": 33,
+    "restaurant": "Egg Master",
+    "time": "20–25 mins"
+  },
+  {
+    "name": "Chicken Manchurian Noodles",
+    "image": "IMAGES/Chicken_Manchurian_Noodles.webp",
+    "oldPrice": 150,
+    "price": 129,
+    "rating": 4.5,
+    "reviews": 15,
+    "restaurant": "Spice Town",
+    "time": "25–30 mins"
+  },
+  {
+    "name": "Rjm Special Chicken Pulao Mini",
+    "image": "https://www.themealdb.com/images/media/meals/1529446352.jpg",
+    "oldPrice": 130,
+    "price": 99,
+    "rating": 4.5,
+    "reviews": 229,
+    "restaurant": "The Rajamahendra",
+    "time": "15–20 mins"
+  },
+  {
+    "name": "Chicken 65",
+    "image": "https://www.themealdb.com/images/media/meals/yqwtvu1487426027.jpg",
+    "oldPrice": 240,
+    "price": 129,
+    "rating": 4.4,
+    "reviews": 27,
+    "restaurant": "Mana Desi Kitchen",
+    "time": "30–35 mins"
+  },
+  {
+    "name": "Double Egg Fried Rice",
+    "image": "https://www.themealdb.com/images/media/meals/1529446137.jpg",
+    "oldPrice": 120,
+    "price": 99,
+    "rating": 4.2,
+    "reviews": 33,
+    "restaurant": "Egg Master",
+    "time": "20–25 mins"
+  },
+  {
+    "name": "Paneer Butter Masala",
+    "image": "IMAGES/Paneer_Butter_Masala.webp",
+    "oldPrice": 180,
+    "price": 150,
+    "rating": 4.6,
+    "reviews": 180,
+    "restaurant": "Punjabi Zaika",
+    "time": "20–25 mins"
+  },
+  {
+    "name": "Veg Biryani",
+    "image": "https://www.themealdb.com/images/media/meals/x0lk931587671540.jpg",
+    "oldPrice": 130,
+    "price": 99,
+    "rating": 4.3,
+    "reviews": 54,
+    "restaurant": "Biryani House",
+    "time": "15–20 mins"
+  },
+  {
+    "name": "Margherita Pizza",
+    "image": "IMAGES/Margherita_Pizza.webp",
+    "oldPrice": 220,
+    "price": 199,
+    "rating": 4.7,
+    "reviews": 341,
+    "restaurant": "Pizza Point",
+    "time": "25–35 mins"
+  },
+  {
+    "name": "Masala Dosa",
+    "image": "IMAGES/dosa.jpg",
+    "oldPrice": 100,
+    "price": 79,
+    "rating": 4.4,
+    "reviews": 112,
+    "restaurant": "South Spice",
+    "time": "10–15 mins"
+  },
+  {
+    "name": "Mutton Biryani",
+    "image": "IMAGES/Mutton_Biryani.webp",
+    "oldPrice": 260,
+    "price": 199,
+    "rating": 4.6,
+    "reviews": 98,
+    "restaurant": "Hyderabadi Flames",
+    "time": "30–40 mins"
+  },
+  {
+    "name": "Idli Sambar",
+    "image": "IMAGES/Idli_Sambar.webp",
+    "oldPrice": 80,
+    "price": 59,
+    "rating": 4.1,
+    "reviews": 210,
+    "restaurant": "Annapurna Tiffins",
+    "time": "10–15 mins"
+  },
+  {
+    "name": "Veg Fried Rice",
+    "image": "https://www.themealdb.com/images/media/meals/1529446137.jpg",
+    "oldPrice": 130,
+    "price": 99,
+    "rating": 4.3,
+    "reviews": 95,
+    "restaurant": "Green Bowl",
+    "time": "15–20 mins"
+  },
+  {
+    "name": "Cheese Burger",
+    "image": "IMAGES/burger_3.webp",
+    "oldPrice": 150,
+    "price": 119,
+    "rating": 4.5,
+    "reviews": 65,
+    "restaurant": "Burger Hub",
+    "time": "20–25 mins"
+  },
+  {
+    "name": "Grilled Sandwich",
+    "image": "https://www.themealdb.com/images/media/meals/utxryw1511721587.jpg",
+    "oldPrice": 120,
+    "price": 89,
+    "rating": 4.2,
+    "reviews": 78,
+    "restaurant": "Snacky Corner",
+    "time": "10–15 mins"
+  },
+  {
+    "name": "Fish Curry Rice",
+    "image": "https://www.themealdb.com/images/media/meals/uwxusv1487344500.jpg",
+    "oldPrice": 230,
+    "price": 180,
+    "rating": 4.6,
+    "reviews": 102,
+    "restaurant": "Coastal Treat",
+    "time": "25–30 mins"
+  },
+  {
+    "name": "Chocolate Brownie",
+    "image": "IMAGES/Chocolate_Brownie.webp",
+    "oldPrice": 150,
+    "price": 120,
+    "rating": 4.8,
+    "reviews": 340,
+    "restaurant": "Sweet Tooth",
+    "time": "15–20 mins"
+  },
+  {
+    "name": "Paneer Butter Masala",
+    "image": "IMAGES/Paneer_Butter_Masala.webp",
+    "oldPrice": 190,
+    "price": 160,
+    "rating": 4.3,
+    "reviews": 260,
+    "restaurant": "Green Chilli",
+    "time": "20–25 mins"
+  },
+  {
+    "name": "Tandoori Chicken",
+    "image": "IMAGES/Tandoori_chicken.jpg",
+    "oldPrice": 270,
+    "price": 240,
+    "rating": 4.5,
+    "reviews": 380,
+    "restaurant": "Green Chilli",
+    "time": "20–25 mins"
+  }
+]

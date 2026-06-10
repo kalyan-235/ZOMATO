@@ -1,0 +1,70 @@
+/* Category bar */
+
+    .category-Bar {
+      display: flex;
+      /* overflow-x: auto; */
+      width: 100%;
+      gap: 25px;
+      padding: 10px 0;
+      justify-content: center;
+      /* border: 1px solid red; */
+      transition: all 0.3s ease;
+    }
+
+     .category {
+      text-align: center;
+      padding: 30px 8px;
+      transition: transform 0.2s;
+    }
+      .category:hover {
+      transform: scale(1.02);
+    }
+    .category span {
+      font-size: 14px;
+      display: block;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    .category img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      padding: 4px;
+      cursor: pointer;
+      transition: 0.3s;
+      background: #fff;
+  
+    }
+
+    .category.active img {
+      border: 2px solid orange;
+      transition: transform 0.2s;
+    }
+    .category.active span {
+      color: orange;
+      font-weight: 600;
+    }
+    .category:hover img {
+      border: 2px solid orange;
+      transition: transform 0.2s;
+    }
+    .category:hover span {
+      color: orange;
+      font-weight: 600;
+    }
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.active-cat {
+  background-color: black;
+  color: white;
+  transform: scale(1.05);
+}
