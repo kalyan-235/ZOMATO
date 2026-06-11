@@ -1,5 +1,5 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import API from "../api";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Menu_item from "../MenuCards_List/Menu_item";
 
@@ -9,7 +9,7 @@ function RestaurantPage() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/zomato/restaurant/${name}`)
+    API.get(`/zomato/restaurant/${name}`)
       .then(res => setItems(res.data))
       .catch(err => console.log(err));
   }, [name]);

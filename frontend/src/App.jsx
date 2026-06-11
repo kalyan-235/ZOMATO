@@ -1,7 +1,6 @@
 import React from "react";
 import Restaurants from "./pages/Restaurants";
 import { Routes, Route } from 'react-router-dom';
-import Practice from "./Practice";
 import Home from "./pages/Home";
 import RestaurantName from "./pages/RestaurantName";
 import RestName from "./pages/RestName";
@@ -37,7 +36,6 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/about" element={<About />} />
             <Route path="/offers" element={<Offers />} />
-            <Route path="/Cards" element={<Practice />} />
           </Routes>
         </div>
       </AuthProvider>

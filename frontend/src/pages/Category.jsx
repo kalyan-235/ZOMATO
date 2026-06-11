@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../Components/Card";
 import Categories from "../Components/Categories";
-import axios from "axios";
+import API from "../api";
 import Top_dishes from '../Components/Top_dishes'
 import Prices from '../Components/Prices'
 
@@ -14,7 +14,7 @@ function Category() {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/zomato");
+        const res = await API.get("/zomato");
         setItems(res.data);
       } catch (error) {
         console.log(error);

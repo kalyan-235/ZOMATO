@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import "../css/MenuCard2.css";
 
 /**
@@ -18,7 +18,7 @@ function MenuCard2({ restaurant: propRestaurant, onClose }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/zomato").then((res) => {
+    API.get("/zomato").then((res) => {
       const mine = res.data.filter((i) => i.restaurant === restaurant);
       const map  = {};
       mine.forEach((item) => {

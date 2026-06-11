@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import Hero from "../Components/Hero";
 import "../css/HomePage.css";
 
@@ -45,7 +45,7 @@ const Home = () => {
   const [topItems, setTopItems]       = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/zomato").then((res) => {
+    API.get("/zomato").then((res) => {
       // Featured restaurants
       const map = {};
       res.data.forEach((item) => {

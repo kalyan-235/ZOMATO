@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import "../css/Restaurants.css";
 
@@ -12,7 +12,7 @@ const Restaurants = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:5000/zomato")
+    API.get("/zomato")
       .then(res => {
         // Build unique restaurant list with first item image + rating
         const map = {};

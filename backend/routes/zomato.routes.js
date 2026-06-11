@@ -1,9 +1,10 @@
-const express = require("express");
-const { getZomatoItems, getItemsByRestaurant, getCategory } = require("../controllers/zomato.controller");
+import express from "express";
+import { getZomatoItems, getItemsByRestaurant, getCategory } from "../controllers/zomato.controller.js";
+
 const router = express.Router();
 
 router.get("/", getZomatoItems);
 router.get("/restaurant/:name", getItemsByRestaurant);
-router.get("/category/:category",getCategory)
+router.get("/category/:category", getCategory);
 
-module.exports = router;
+export default router;

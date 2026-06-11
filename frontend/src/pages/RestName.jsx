@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import MenuOverlay from "../MenuCards_List/MenuCard2";
@@ -41,8 +41,8 @@ const RestName = () => {
   const [showMenu, setShowMenu]       = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/zomato")
+    API
+      .get("/zomato")
       .then((res) => {
         const mine = res.data.filter((i) => i.restaurant === name);
         setItems(mine);

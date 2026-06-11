@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import API from '../api';
 import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
@@ -23,7 +23,7 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/auth/register', formData);
+            const res = await API.post('/auth/register', formData);
             login(res.data.user, res.data.token);
             navigate('/');
         } catch (err) {
@@ -69,7 +69,7 @@ const Signup = () => {
                     </div>
                     <button type="submit" className="signup-btn">Sign Up</button>
                 </form>
-                <p>Already have an account? <a href="/login">Login</a></p>
+                <p>Already have an account? <Link to="/login">Login</Link></p>
             </div>
         </div>
     );

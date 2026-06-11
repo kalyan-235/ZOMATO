@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 import "../css/Offers.css";
 
@@ -92,7 +92,7 @@ const Offers = () => {
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/zomato").then((res) => {
+    API.get("/zomato").then((res) => {
       const map = {};
       res.data.forEach((item) => {
         if (!map[item.restaurant]) {
