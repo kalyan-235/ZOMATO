@@ -1,0 +1,218 @@
+/* =============================================
+   MENU CARD 2  —  overlay + standalone
+============================================= */
+
+/* ── BACKDROP (overlay mode) ── */
+.mc2-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;        /* sheet slides up from bottom */
+  justify-content: center;
+  animation: mc2-fade-in 0.2s ease;
+}
+
+@keyframes mc2-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── STANDALONE page wrapper ── */
+.mc2-page {
+  min-height: 100vh;
+  background: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  padding: 32px 24px 60px;
+}
+
+/* ── SHEET ── */
+.mc2-sheet {
+  background: #fff;
+  border-radius: 24px 24px 0 0;    /* rounded top corners in overlay */
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: mc2-slide-up 0.32s cubic-bezier(0.32, 0, 0.15, 1);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Standalone — full card look */
+.mc2-page .mc2-sheet {
+  border-radius: 20px;
+  max-height: none;
+  box-shadow: 0 4px 28px rgba(0,0,0,0.1);
+  animation: none;
+}
+
+@keyframes mc2-slide-up {
+  from { transform: translateY(100%); opacity: 0.6; }
+  to   { transform: translateY(0);    opacity: 1;   }
+}
+
+/* ── HEADER ── */
+.mc2-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 2px solid #f5f5f5;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  border-radius: 24px 24px 0 0;
+}
+
+.mc2-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mc2-icon { font-size: 1.8rem; }
+
+.mc2-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+.mc2-subtitle {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin: 0;
+}
+
+.mc2-close {
+  background: #f5f5f5;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.2s, color 0.2s;
+}
+.mc2-close:hover { background: #ffe4e4; color: #e23744; }
+
+/* ── BODY ── */
+.mc2-body {
+  padding: 20px 24px 32px;
+  overflow-y: auto;
+}
+
+.mc2-loading {
+  text-align: center;
+  color: #aaa;
+  padding: 40px 0;
+  font-size: 0.9rem;
+}
+
+/* ── CATEGORIES ── */
+.mc2-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.mc2-cat-block { }
+
+.mc2-cat-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #e85d26;
+  letter-spacing: 1.2px;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid #f5f5f5;
+}
+
+.mc2-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mc2-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.mc2-item-row:hover { background: #fafafa; }
+
+.mc2-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mc2-dot { font-size: 0.7rem; flex-shrink: 0; }
+
+.mc2-item-name {
+  font-size: 0.88rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.mc2-item-price {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+/* ── HOURS ── */
+.mc2-hours {
+  background: #fafafa;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.mc2-hours-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 14px;
+}
+
+.mc2-hours-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mc2-hours-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  padding: 4px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.mc2-hours-row:last-child { border-bottom: none; }
+
+.mc2-day  { color: #555; font-weight: 500; }
+.mc2-time { color: #e85d26; font-weight: 600; }
+
+/* ── SCROLLBAR ── */
+.mc2-sheet::-webkit-scrollbar { width: 4px; }
+.mc2-sheet::-webkit-scrollbar-track { background: transparent; }
+.mc2-sheet::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .mc2-sheet { border-radius: 20px 20px 0 0; }
+  .mc2-header { padding: 16px 16px 12px; }
+  .mc2-body   { padding: 16px 16px 28px; }
+}

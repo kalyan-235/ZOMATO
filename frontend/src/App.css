@@ -10,7 +10,7 @@
       color: #333;
     }
 
-    /* Offset for fixed navbar (height: 100px) */
+    /* Offset for fixed navbar (height: 68px) */
     .page-content {
-      padding-top: 100px;
+      padding-top: 68px;
     }

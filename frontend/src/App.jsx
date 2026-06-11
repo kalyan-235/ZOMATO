@@ -11,6 +11,8 @@ import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import Cart from "./Components/Cart";
 import NavBar from "./Components/NavBar";
+import About from "./pages/About";
+import Offers from "./pages/Offers";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import Category from "./pages/Category";
@@ -33,6 +35,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/offers" element={<Offers />} />
             <Route path="/Cards" element={<Practice />} />
           </Routes>
         </div>

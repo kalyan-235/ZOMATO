@@ -1,0 +1,356 @@
+/* =============================================
+   OFFERS PAGE
+============================================= */
+
+.of-page {
+  font-family: 'Poppins', sans-serif;
+  background: #f7f7f7;
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.of-hero {
+  position: relative;
+  height: 240px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #3a1a0a 50%, #e85d26 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.of-hero::before {
+  content: "🎟️ 🔥 💸 🎉 🚴 🌙 🎊";
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.06;
+  letter-spacing: 30px;
+  white-space: nowrap;
+  width: 200%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.of-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+}
+
+.of-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 24px;
+}
+
+.of-hero-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.of-hero-content h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0 0 10px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.of-hero-content p {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* ── BODY ── */
+.of-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+.of-section { margin-bottom: 56px; }
+
+.of-section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 24px;
+  padding-left: 12px;
+  border-left: 4px solid #e85d26;
+}
+
+/* ── COUPON CARDS ── */
+.of-coupon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+.of-coupon {
+  display: flex;
+  border-radius: 16px;
+  border: 1.5px dashed;
+  overflow: visible;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  background: #fff;
+}
+
+/* Left discount badge */
+.of-coupon-left {
+  width: 100px;
+  flex-shrink: 0;
+  border-radius: 14px 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 20px 8px;
+}
+
+.of-coupon-icon    { font-size: 1.6rem; }
+.of-coupon-discount {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Notch holes on the divider */
+.of-notch-top,
+.of-notch-bottom {
+  position: absolute;
+  left: 93px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  z-index: 2;
+}
+.of-notch-top    { top: -7px; }
+.of-notch-bottom { bottom: -7px; }
+
+/* Dashed divider line */
+.of-coupon::after {
+  content: '';
+  position: absolute;
+  left: 99px;
+  top: 10px;
+  bottom: 10px;
+  border-left: 2px dashed rgba(0,0,0,0.12);
+}
+
+/* Right info */
+.of-coupon-right {
+  flex: 1;
+  padding: 18px 18px 14px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.of-coupon-right h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.of-coupon-right p {
+  font-size: 0.78rem;
+  color: #777;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.of-coupon-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.of-code-box {
+  border: 1.5px dashed;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: transparent;
+}
+
+.of-copy-btn {
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: opacity 0.2s;
+}
+.of-copy-btn:hover { opacity: 0.85; }
+
+.of-expiry {
+  font-size: 0.72rem;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+/* ── FLASH DEALS ── */
+.of-flash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+}
+
+.of-flash-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s;
+}
+.of-flash-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.of-flash-img-wrap {
+  position: relative;
+  height: 130px;
+}
+.of-flash-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.of-flash-tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #e85d26;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.of-flash-info { padding: 10px 12px 14px; }
+.of-flash-info h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.of-flash-prices { display: flex; align-items: baseline; gap: 8px; }
+.of-old-price {
+  font-size: 0.78rem;
+  color: #bbb;
+  text-decoration: line-through;
+}
+.of-new-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #e85d26;
+}
+
+/* ── RESTAURANT OFFERS ── */
+.of-rest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.of-rest-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s;
+}
+.of-rest-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.of-rest-img-wrap { position: relative; height: 120px; }
+.of-rest-img { width: 100%; height: 100%; object-fit: cover; }
+
+.of-rest-offer-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: #e23744;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.of-rest-info {
+  padding: 10px 12px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.of-rest-info h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+.of-rest-rating { font-size: 0.75rem; color: #888; flex-shrink: 0; }
+
+/* ── TERMS ── */
+.of-terms {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.of-terms h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 14px;
+}
+.of-terms ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.of-terms li {
+  font-size: 0.8rem;
+  color: #777;
+  line-height: 1.6;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .of-coupon-grid { grid-template-columns: 1fr; }
+  .of-hero-content h1 { font-size: 1.6rem; }
+  .of-flash-grid  { grid-template-columns: repeat(2, 1fr); }
+  .of-rest-grid   { grid-template-columns: repeat(2, 1fr); }
+}

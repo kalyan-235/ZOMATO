@@ -140,7 +140,7 @@
   width: 220px;
   flex-shrink: 0;
   position: sticky;
-  top: 110px;             /* below fixed navbar */
+  top: 80px;             /* below fixed navbar */
 }
 
 .rn-sidebar-title {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import MenuOverlay from "../MenuCards_List/MenuCard2";
 import "../css/RestName.css";
 
 /* Static descriptions per restaurant – fallback if name not found */
@@ -35,8 +36,9 @@ const RestName = () => {
 
   const [items, setItems]             = useState([]);
   const [activeCategory, setCategory] = useState("ALL");
-  const [added, setAdded]             = useState({});   // track "Added!" feedback
+  const [added, setAdded]             = useState({});
   const [loading, setLoading]         = useState(true);
+  const [showMenu, setShowMenu]       = useState(false);
 
   useEffect(() => {
     axios
@@ -97,9 +99,9 @@ const RestName = () => {
 
           {/* Quick links */}
           <div className="rn-hero-actions">
-            <Link to={`/menuCard2/${name}`} className="rn-menu-link">
+            <button className="rn-menu-link" onClick={() => setShowMenu(true)}>
               📋 Full Menu
-            </Link>
+            </button>
           </div>
 
         </div>
@@ -185,6 +187,15 @@ const RestName = () => {
         </main>
 
       </div>
+
+      {/* ── FULL MENU OVERLAY ── */}
+      {showMenu && (
+        <MenuOverlay
+          restaurant={name}
+          onClose={() => setShowMenu(false)}
+        />
+      )}
+
     </div>
   );
 };
