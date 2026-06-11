@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../Components/Card";
 import Categories from "../Components/Categories";
 import axios from "axios";
@@ -9,6 +9,7 @@ function Category() {
   const [items, setItems] = useState([]);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const getItems = async () => {
@@ -19,22 +20,35 @@ function Category() {
         console.log(error);
       }
     };
-
     getItems();
   }, []);
 
   const filteredItems = items.filter(item => {
     let matches = true;
-    if (selectedRange) {
-      if (selectedRange === 'under99') matches = matches && item.price <= 99;
-      if (selectedRange === '100-149') matches = matches && item.price >= 100 && item.price <= 149;
-      if (selectedRange === '200-249') matches = matches && item.price >= 200 && item.price <= 249;
-      if (selectedRange === 'veg') matches = matches && item.category === 'Veg';
-      if (selectedRange === 'nonveg') matches = matches && item.category === 'Non-veg';
+
+    // Search filter — matches item name or restaurant name
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      matches = matches && (
+        item.name.toLowerCase().includes(q) ||
+        item.restaurant.toLowerCase().includes(q)
+      );
     }
+
+    // Price / type filter
+    if (selectedRange) {
+      if (selectedRange === 'under99')  matches = matches && item.price <= 99;
+      if (selectedRange === '100-149')  matches = matches && item.price >= 100 && item.price <= 149;
+      if (selectedRange === '200-249')  matches = matches && item.price >= 200 && item.price <= 249;
+      if (selectedRange === 'veg')      matches = matches && item.category === 'Veg';
+      if (selectedRange === 'nonveg')   matches = matches && item.category === 'Non-veg';
+    }
+
+    // Category filter
     if (selectedCategory && selectedCategory !== 'ALL') {
       matches = matches && item.category === selectedCategory;
     }
+
     return matches;
   });
 
@@ -43,12 +57,17 @@ function Category() {
       <div>
         <div className="space">
           <div className="search-bar">
-            <input type="text" placeholder="Search food or restaurants..." />
+            <input
+              type="text"
+              placeholder="Search food or restaurants..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
           <Categories setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
           <Top_dishes/>
           <Prices setSelectedRange={setSelectedRange} selectedRange={selectedRange}/>
-          <Card itemsData={filteredItems} /> {/* card pakkana itemsData ani endhuku ivvali ante Backend nundi data ni Home.jsx lo fetch chesthunam ...So database data = items lo store avuthundi....React lo child component (Card) ki parent component (Home) data ivvali ante props vadali.Parent lo fetch chesina data → Child ki props dwara pampali andhuku itemsData ani oka promp istam leka pothe card list ki thelisdhu data ela vastundho ani..... */}
+          <Card itemsData={filteredItems} />
         </div>
       </div>
     </>

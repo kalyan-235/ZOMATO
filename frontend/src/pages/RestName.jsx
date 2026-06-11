@@ -1,162 +1,191 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "../Components/Card";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import "../css/FoodCard.css";
+import { useNavigate, useParams, Link, useLocation } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import "../css/RestName.css";
+
+/* Static descriptions per restaurant – fallback if name not found */
+const REST_INFO = {
+  default: {
+    tagline: "Fresh ingredients, bold flavours, delivered fast.",
+    cuisine: "Multi Cuisine",
+    rating:  "4.5",
+    time:    "30–45 min",
+    cost:    "₹200 for two",
+  },
+};
+
+const getInfo = (name) =>
+  REST_INFO[name] || { ...REST_INFO.default, cuisine: "Speciality Kitchen" };
+
+/* Pick a cover image from the first item of the restaurant */
+const FALLBACK_COVER = "/IMAGES/burger_2.webp";
+
+const fixImg = (src) =>
+  src && !src.startsWith("/") && !src.startsWith("http") ? `/${src}` : src;
 
 const RestName = () => {
-  const [items, setItems]                   = useState([]);
-  const [restaurants, setRestaurants]       = useState([]);
-  const [restaurantIndex, setRestaurantIndex] = useState(0);
-  const [activeRestaurant, setActiveRestaurant] = useState("");
-  const [activeCategory, setActiveCategory] = useState("");
-  const [activeItem, setActiveItem]         = useState(null);
-  const [showCards, setShowCards]           = useState(false);
+  const { name }      = useParams();
+  const navigate      = useNavigate();
+  const location      = useLocation();
+  const { addToCart } = useCart();
 
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { name }  = useParams();          // comes from /restname/:name
+  // Where to go when back is clicked — depends on who sent us here
+  const fromPage = location.state?.from === "category" ? "/category" : "/Restaurants";
+
+  const [items, setItems]             = useState([]);
+  const [activeCategory, setCategory] = useState("ALL");
+  const [added, setAdded]             = useState({});   // track "Added!" feedback
+  const [loading, setLoading]         = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/zomato");
-        setItems(res.data);
+    axios
+      .get("http://localhost:5000/zomato")
+      .then((res) => {
+        const mine = res.data.filter((i) => i.restaurant === name);
+        setItems(mine);
+        setLoading(false);
+      })
+      .catch((err) => { console.log(err); setLoading(false); });
+  }, [name]);
 
-        const uniqueRestaurants = [...new Set(res.data.map(i => i.restaurant))];
-        setRestaurants(uniqueRestaurants);
+  if (loading) return <div className="rn-loading">Loading...</div>;
+  if (!items.length) return <div className="rn-loading">No items found for "{name}"</div>;
 
-        // Use :name param OR location.state OR first restaurant
-        const targetRestaurant =
-          name || location.state?.restaurant || uniqueRestaurants[0];
+  const info       = getInfo(name);
+  const coverImg   = fixImg(items[0]?.image) || FALLBACK_COVER;
+  const categories = ["ALL", ...new Set(items.map((i) => i.category))];
+  const displayed  = activeCategory === "ALL"
+    ? items
+    : items.filter((i) => i.category === activeCategory);
 
-        const firstItem = res.data.find(i => i.restaurant === targetRestaurant);
-        const targetIndex = uniqueRestaurants.indexOf(targetRestaurant);
-
-        setRestaurantIndex(targetIndex);
-        setActiveRestaurant(targetRestaurant);
-        setActiveCategory(firstItem?.category || "");
-        setActiveItem(firstItem || null);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, [name, location.state]);
-
-  if (!activeItem) return <h2 style={{ textAlign: "center", marginTop: "60px" }}>Loading...</h2>;
-  if (restaurants.length === 0) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
-
-  // ── derived state ──
-  const restaurantItems = items.filter(i => i.restaurant === activeRestaurant);
-  const categories      = [...new Set(restaurantItems.map(i => i.category))];
-  const categoryItems   = restaurantItems.filter(i => i.category === activeCategory);
-
-  // ── navigation ──
-  const changeRestaurant = (index) => {
-    const rname    = restaurants[index];
-    const newItems = items.filter(i => i.restaurant === rname);
-    const first    = newItems[0];
-    setRestaurantIndex(index);
-    setActiveRestaurant(rname);
-    setActiveCategory(first.category);
-    setActiveItem(first);
-    setShowCards(false);
+  const handleAdd = (item) => {
+    addToCart({ id: item._id, name: item.name, price: item.price, image: item.image, quantity: 1 });
+    setAdded((prev) => ({ ...prev, [item._id]: true }));
+    setTimeout(() => setAdded((prev) => ({ ...prev, [item._id]: false })), 1500);
   };
 
-  const nextRestaurant = () => changeRestaurant((restaurantIndex + 1) % restaurants.length);
-  const prevRestaurant = () => changeRestaurant((restaurantIndex - 1 + restaurants.length) % restaurants.length);
-
   return (
-    <>
-      <div className="food-card">
+    <div className="rn-page">
 
-        {/* Back button */}
-        <button
-          onClick={() => navigate("/Restaurants")}
-          style={{
-            position: "absolute", top: "10px", left: "10px",
-            fontSize: "16px", background: "whitesmoke", color: "black",
-            border: "none", padding: "4px 8px", borderRadius: "5px",
-            cursor: "pointer", zIndex: "10"
-          }}
-        >
-          ← Back
-        </button>
+      {/* ── HERO BANNER ── */}
+      <div className="rn-hero" style={{ backgroundImage: `url(${coverImg})` }}>
+        <div className="rn-hero-overlay" />
+        <div className="rn-hero-inner">
 
-        {/* Left arrow */}
-        <button className="nav-arrow left" onClick={prevRestaurant}>⬅</button>
+          {/* Back */}
+          <button className="rn-back" onClick={() => navigate(fromPage)}>
+            ← {location.state?.from === "category" ? "Back to Category" : "All Restaurants"}
+          </button>
 
-        {/* Top bar */}
-        <div className="top-nav">
-          <h2 className="restaurant-name">{activeRestaurant}</h2>
-
-          <div className="category-bar">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                className={activeCategory === cat ? "active-cat" : ""}
-                onClick={() => {
-                  setActiveCategory(cat);
-                  setActiveItem(restaurantItems.find(i => i.category === cat));
-                  setShowCards(false);
-                }}
-              >
-                {cat.toUpperCase()}
-              </button>
-            ))}
+          {/* Restaurant identity */}
+          <div className="rn-identity">
+            <div className="rn-logo">
+              {name.charAt(0).toUpperCase()}
+            </div>
+            <div className="rn-meta">
+              <h1 className="rn-title">{name}</h1>
+              <p className="rn-tagline">{info.tagline}</p>
+              <div className="rn-badges">
+                <span className="rn-badge">🍽️ {info.cuisine}</span>
+                <span className="rn-badge">⭐ {info.rating}</span>
+                <span className="rn-badge">🕐 {info.time}</span>
+                <span className="rn-badge">💰 {info.cost}</span>
+              </div>
+            </div>
           </div>
 
-          <div className="nav-links">
-            <Link to={`/menuCard2/${activeRestaurant}`}>Menu List</Link>
+          {/* Quick links */}
+          <div className="rn-hero-actions">
+            <Link to={`/menuCard2/${name}`} className="rn-menu-link">
+              📋 Full Menu
+            </Link>
           </div>
+
         </div>
-
-        {/* Content */}
-        <div className="content">
-
-          {/* Left info */}
-          <div className="left-info">
-            <h1 className="food-title">{activeItem.name}</h1>
-            <h2 className="price">₹{activeItem.price}</h2>
-            <p className="desc">{activeItem.description}</p>
-            <div className="qty-order">
-              <button className="order-btn">Add to Cart</button>
-            </div>
-          </div>
-
-          {/* Right side */}
-          <div className="right-side">
-            <div className="side-carousel">
-              {categoryItems.map(item => (
-                <div
-                  key={item._id}
-                  onClick={() => {
-                    setActiveItem(item);
-                    setShowCards(true);
-                  }}
-                >
-                  <img src={item.image} className="small-img" alt={item.name} />
-                </div>
-              ))}
-            </div>
-
-            <div className="main-img-box">
-              <img src={activeItem.image} className="main-img" alt={activeItem.name} />
-            </div>
-          </div>
-        </div>
-
-        {/* Right arrow */}
-        <button className="nav-arrow right" onClick={nextRestaurant}>➡</button>
       </div>
 
-      {showCards && (
-        <div className="bottom-card-section">
-          <Card itemsData={categoryItems} />
-        </div>
-      )}
-    </>
+      {/* ── BODY : sidebar + cards ── */}
+      <div className="rn-body">
+
+        {/* ── RIGHT SIDEBAR : categories ── */}
+        <aside className="rn-sidebar">
+          <h3 className="rn-sidebar-title">Categories</h3>
+          <ul className="rn-cat-list">
+            {categories.map((cat) => (
+              <li key={cat}>
+                <button
+                  className={`rn-cat-btn ${activeCategory === cat ? "rn-cat-active" : ""}`}
+                  onClick={() => setCategory(cat)}
+                >
+                  {cat === "ALL" ? "🍴 All Items" : cat}
+                  <span className="rn-cat-count">
+                    {cat === "ALL"
+                      ? items.length
+                      : items.filter((i) => i.category === cat).length}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          {/* Offer banner */}
+          <div className="rn-offer-box">
+            <p className="rn-offer-title">🎉 Today's Offer</p>
+            <p className="rn-offer-desc">Use code <strong>FIRST50</strong> and get 50% off on your first order!</p>
+          </div>
+        </aside>
+
+        {/* ── FOOD CARDS GRID ── */}
+        <main className="rn-main">
+          <div className="rn-section-header">
+            <h2 className="rn-section-title">
+              {activeCategory === "ALL" ? "All Items" : activeCategory}
+              <span className="rn-count">({displayed.length})</span>
+            </h2>
+          </div>
+
+          <div className="rn-grid">
+            {displayed.map((item) => (
+              <div className="rn-card" key={item._id}>
+
+                {/* Image */}
+                <div className="rn-card-img-wrap">
+                  <img src={fixImg(item.image)} alt={item.name} className="rn-card-img" />
+                  {item.category === "Veg" && <span className="rn-veg-dot" title="Veg">🟢</span>}
+                  {item.category === "Non-veg" && <span className="rn-veg-dot" title="Non-Veg">🔴</span>}
+                </div>
+
+                {/* Info */}
+                <div className="rn-card-info">
+                  <h3 className="rn-card-name">{item.name}</h3>
+                  <p className="rn-card-cat">{item.category}</p>
+                  {item.description && (
+                    <p className="rn-card-desc">{item.description}</p>
+                  )}
+                  <div className="rn-card-footer">
+                    <div className="rn-card-prices">
+                      {item.oldPrice && (
+                        <span className="rn-old-price">₹{item.oldPrice}</span>
+                      )}
+                      <span className="rn-new-price">₹{item.price}</span>
+                    </div>
+                    <button
+                      className={`rn-add-btn ${added[item._id] ? "rn-added" : ""}`}
+                      onClick={() => handleAdd(item)}
+                    >
+                      {added[item._id] ? "✓ Added" : "+ Add"}
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            ))}
+          </div>
+        </main>
+
+      </div>
+    </div>
   );
 };
 

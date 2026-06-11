@@ -48,7 +48,7 @@ function MenuCard2() {
       <img src="/IMAGES/biryani.png" className="top-right-img" />
 
       <div className="center-content">
-        <button className="back-button" onClick={() => navigate('/Restaurants', { state: { restaurant } })}>← Back to Restaurants</button>
+        <button className="back-button" onClick={() => navigate(`/restname/${restaurant}`)}>← Back To Restaurant</button>
         <h1 className="title">{restaurant}</h1>
         <p className="subtitle">Our Special Menu</p>
 

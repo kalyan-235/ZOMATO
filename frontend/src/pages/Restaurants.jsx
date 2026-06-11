@@ -3,17 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../css/Restaurants.css";
 
-const TRENDING_CATEGORIES = [
-  { name: "Pizza",     img: "/IMAGES/pizza.jpg" },
-  { name: "Burgers",   img: "/IMAGES/burger_2.webp" },
-  { name: "Indian",    img: "/IMAGES/Aandhra_Food.jpg" },
-  { name: "Sushi",     img: "/IMAGES/sea_food_1.webp" },
-  { name: "Desserts",  img: "/IMAGES/Cake.avif" },
-  { name: "Salads",    img: "/IMAGES/Paneer_Butter_Masala.webp" },
-];
+const fixImg = (src) =>
+  src && !src.startsWith("/") && !src.startsWith("http") ? `/${src}` : src;
 
 const Restaurants = () => {
-  const [allItems, setAllItems]       = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [search, setSearch]           = useState("");
   const navigate = useNavigate();
@@ -21,8 +14,6 @@ const Restaurants = () => {
   useEffect(() => {
     axios.get("http://localhost:5000/zomato")
       .then(res => {
-        setAllItems(res.data);
-
         // Build unique restaurant list with first item image + rating
         const map = {};
         res.data.forEach(item => {
@@ -75,7 +66,7 @@ const Restaurants = () => {
             {filtered.map((r, i) => (
               <div className="rp-card" key={i}>
                 <div className="rp-card-img-wrap">
-                  <img src={r.image} alt={r.name} className="rp-card-img" />
+                  <img src={fixImg(r.image)} alt={r.name} className="rp-card-img" />
                   <button className="rp-heart">♡</button>
                   <span className="rp-rating">⭐ {r.rating}</span>
                 </div>
@@ -84,9 +75,9 @@ const Restaurants = () => {
                   <p className="rp-card-time">🕐 {r.time}</p>
                   <button
                     className="rp-order-btn"
-                    onClick={() => navigate(`/restname/${r.name}`)}
+                    onClick={() => navigate(`/restname/${r.name}`, { state: { from: "restaurants" } })}
                   >
-                    ORDER NOW
+                    VISIT NOW
                   </button>
                 </div>
               </div>
@@ -95,7 +86,7 @@ const Restaurants = () => {
         </section>
 
         {/* ── TRENDING CATEGORIES ── */}
-        <section className="rp-section rp-cat-section">
+        {/* <section className="rp-section rp-cat-section">
           <h2 className="rp-section-title">Trending Categories</h2>
           <div className="rp-cat-grid">
             {TRENDING_CATEGORIES.map((cat, i) => (
@@ -105,7 +96,7 @@ const Restaurants = () => {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
       </div>
     </div>

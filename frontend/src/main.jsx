@@ -12,6 +12,7 @@ import './css/Navbar.css';
 import './css/AddProducts.css';
 import './css/Hero.css';
 import './css/Restaurants.css';
+import './css/RestName.css';
 import './css/FoodCard.css';
 import './css/Menu_card.css';
 import './css/Login.css';

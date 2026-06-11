@@ -25,6 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/category" element={<Category />} />
             <Route path="/Restaurants" element={<Restaurants />} />
+            <Route path="/restName" element={<RestName />} />
             <Route path="/restname/:name" element={<RestName />} />
             <Route path="/restaurant/:name" element={<RestaurantName />} />
             <Route path="/category/:category" element={<CategoryList />} />

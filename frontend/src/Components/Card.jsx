@@ -9,7 +9,7 @@ function Card({ itemsData }) {
         <div
           className="card"
           key={index}
-          onClick={() => navigate(`/restaurant/${item.restaurant}`)}
+          onClick={() => navigate(`/restname/${item.restaurant}`, { state: { from: "category" } })}
         >
           <img src={item.image} alt="food" />
           <h3>{item.name}</h3>
