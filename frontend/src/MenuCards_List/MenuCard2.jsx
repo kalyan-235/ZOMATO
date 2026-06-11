@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Menu_Card.css";
 
 function MenuCard2() {
   const { restaurant } = useParams(); // 👈 restaurant from card

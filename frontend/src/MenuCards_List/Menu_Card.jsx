@@ -1,5 +1,5 @@
 import React from "react";
-import './Menu_Card.css';
+
 function MenuCard({itemsData}) {
     return (
         <div class="menu-card">

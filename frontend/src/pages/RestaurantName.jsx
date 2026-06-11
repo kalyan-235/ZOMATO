@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import Card from "./Card";
 import Menu_item from "../MenuCards_List/Menu_item";
 
 function RestaurantPage() {

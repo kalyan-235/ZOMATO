@@ -1,4 +1,4 @@
-import './Top_dishes.css';
+import React from "react";
 const Top_dishes=()=>{
     return (
         <div className="topDishes">

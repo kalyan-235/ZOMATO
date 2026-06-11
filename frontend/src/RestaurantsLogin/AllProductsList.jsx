@@ -1,5 +1,4 @@
 import React from "react";
-import "./AddProducts.css";
 
 export default function AllProducts() {
   return (

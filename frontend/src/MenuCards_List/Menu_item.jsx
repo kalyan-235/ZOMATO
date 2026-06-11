@@ -1,5 +1,4 @@
 import React from "react";
-import './Menu_Card.css';
 import { useCart } from '../context/CartContext';
 
 function Menu_item({ itemsData }) {

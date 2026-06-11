@@ -1,5 +1,5 @@
 import React from "react";
-import "./AddProducts.css";
+
 function AddRestaurant() {
   return (
     <div className="page-container">

@@ -1,9 +1,6 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Card from "./Card";
-import NavBar from "./NavBar";
 
 const CategoryList = () => {
   const { category } = useParams();
@@ -49,51 +46,3 @@ const CategoryList = () => {
 
 export default CategoryList;
 
-
-
-
-//idhi on cheste category lo on chey
-
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import axios from "axios";
-// import Card from "./Card";
-// import NavBar from "./NavBar";
-// import Category from "./Category";
-
-// const CategoryList = () => {
-//   const { category } = useParams();
-//   const [items, setItems] = useState([]);
-
-//   useEffect(() => {
-//     const fetchItems = async () => {
-//       try {
-//         const url =
-//           category === "ALL"
-//             ? "http://localhost:5000/zomato"
-//             : `http://localhost:5000/zomato/category/${category}`;
-
-//         const res = await axios.get(url);
-//         setItems(res.data);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     };
-
-//     fetchItems();
-//   }, [category]);
-
-//   return (
-//     <>
-//       <NavBar />
-
-//       <div className="space">
-//         <Category activeCategory={category} />
-
-//         <Card itemsData={items} />
-//       </div>
-//     </>
-//   );
-// };
-
-// export default CategoryList;

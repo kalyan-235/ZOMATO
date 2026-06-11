@@ -16,10 +16,11 @@ const NavBar = () => {
 
         <ul class="nav-links">
         <li><Link to ="/">Home</Link></li>
+        <li><Link to ="/category">Category</Link></li>
         <li><Link to ="/Restaurants">Restaurants</Link></li>
-        {/* <li> <Link to ="/Offers">Offers</Link></li>
-        <li><Link to ="/">Favorites</Link></li>
-        <li><Link to ="/order">Order</Link></li> */}
+        <li> <Link to ="/">Offers</Link></li>
+        <li><Link to ="/">About</Link></li>
+
         </ul>
 
         <div class="nav-right">

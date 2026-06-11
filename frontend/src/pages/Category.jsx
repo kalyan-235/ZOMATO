@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Card from "./Components/Card";
-import './App.css';
-import Category from "./Components/Category";
-import NavBar from "./Components/NavBar";
-import './Components/NavBar.css';
+import Card from "../Components/Card";
+import Categories from "../Components/Categories";
 import axios from "axios";
-import Top_dishes from './Components/Top_dishes'
-import Prices from './Components/Prices'
+import Top_dishes from '../Components/Top_dishes'
+import Prices from '../Components/Prices'
 
-function Home() {
+function Category() {
   const [items, setItems] = useState([]);
   const [selectedRange, setSelectedRange] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('ALL');
@@ -44,12 +41,11 @@ function Home() {
   return (
     <>
       <div>
-        <NavBar />
         <div className="space">
           <div className="search-bar">
             <input type="text" placeholder="Search food or restaurants..." />
           </div>
-          <Category setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
+          <Categories setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
           <Top_dishes/>
           <Prices setSelectedRange={setSelectedRange} selectedRange={selectedRange}/>
           <Card itemsData={filteredItems} /> {/* card pakkana itemsData ani endhuku ivvali ante Backend nundi data ni Home.jsx lo fetch chesthunam ...So database data = items lo store avuthundi....React lo child component (Card) ki parent component (Home) data ivvali ante props vadali.Parent lo fetch chesina data → Child ki props dwara pampali andhuku itemsData ani oka promp istam leka pothe card list ki thelisdhu data ela vastundho ani..... */}
@@ -59,4 +55,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Category;

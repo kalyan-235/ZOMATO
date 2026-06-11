@@ -1,5 +1,4 @@
 import React from "react";
-import "./AddProducts.css";
 
  function AddProduct() {
   return (

@@ -1,4 +1,4 @@
-import './Prices.css';
+import React from 'react';
 
 const Prices = ({ setSelectedRange, selectedRange }) => {
     const handleClick = (range) => {

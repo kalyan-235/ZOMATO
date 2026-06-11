@@ -1,0 +1,133 @@
+* {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #f8f9fa;
+      margin: 0;
+      padding: 30px;
+      color: #333;
+    }
+
+    .search-bar{
+      margin-top: 5px;
+      text-align: center;
+    }
+    .search-bar input {
+      padding: 12px 24px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      justify-content: center;
+      text-align: center;
+      outline: none;
+      width: 300px;
+      transition: all 0.3s ease;
+    }
+
+    .search-bar input:focus {
+      border-color: #ff6600;
+      width: 340px;
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .filter-btn {
+      padding: 6px 10px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Grid layout */
+    .items {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(200px,1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .cards{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(200px,1fr));
+      gap: 20px;
+      margin-top: 20px;
+      /* border: 1px solid black; */
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      padding: 10px;
+      transition: transform 0.2s;
+      /* border: 1px solid black; */
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      height: 130px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      margin: 5px 0;
+      color: #333;
+    }
+
+    .rating {
+      color: green;
+      font-size: 13px;
+    }
+
+    .price {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin: 4px 0;
+    }
+
+    .old {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 12px;
+    }
+
+    .new {
+      color: orange;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .add-btn {
+      background: green;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .restaurant {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .space {
+      padding: 5px 80px;
+      /* border: 1px solid green; */
+    };

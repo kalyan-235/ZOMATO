@@ -1,5 +1,4 @@
 import React from "react";
-import "./MenuRight.css";
 
 const MenuRight = () => {
   const menuItems = [
