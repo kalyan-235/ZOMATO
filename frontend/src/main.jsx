@@ -22,6 +22,7 @@ import './css/Menu_card.css';
 import './css/Login.css';
 import './css/Signup.css';
 import './css/Cart.css';
+import './css/Auth.css';
 import './App.css';
 
 
