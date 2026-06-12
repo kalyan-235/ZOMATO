@@ -58,12 +58,13 @@ const Cart = () => {
         totalAmount: Math.max(0, total),
         couponCode:  discount > 0 ? coupon.toUpperCase() : '',
       });
-    } catch (err) {
-      // Order still goes through on frontend even if API fails
-      console.error('Order save failed:', err.message);
-    } finally {
+      // Only clear cart and show success if order was saved successfully
       clearCart();
       setOrdered(true);
+    } catch (err) {
+      console.error('Order save failed:', err.message);
+      alert('Failed to place order. Please try again.');
+    } finally {
       setPlacing(false);
     }
   };

@@ -24,6 +24,7 @@ import './css/Signup.css';
 import './css/Cart.css';
 import './css/Auth.css';
 import './App.css';
+import './admin/admin.css';
 
 
 ReactDom.createRoot(document.getElementById('root')).render(
