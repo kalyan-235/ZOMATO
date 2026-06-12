@@ -1,19 +1,33 @@
 import User from "../model/user.model.js";
 import Zomato from "../model/zomato.model.js";
+import Order from "../model/order.model.js";
 
 /* ── DASHBOARD STATS ── */
 export const getDashboardStats = async (_req, res) => {
   try {
-    const totalUsers      = await User.countDocuments({ role: "user" });
-    const totalItems      = await Zomato.countDocuments();
-    const restaurants     = await Zomato.distinct("restaurant");
+    const totalUsers       = await User.countDocuments({ role: "user" });
+    const totalItems       = await Zomato.countDocuments();
+    const restaurants      = await Zomato.distinct("restaurant");
     const totalRestaurants = restaurants.length;
+
+    // Real order stats from DB
+    const totalOrders = await Order.countDocuments();
+    const revenueAgg  = await Order.aggregate([
+      { $group: { _id: null, total: { $sum: "$totalAmount" } } },
+    ]);
+    const revenue = revenueAgg[0]?.total || 0;
 
     // Recent users (last 5)
     const recentUsers = await User.find({ role: "user" })
       .sort({ createdAt: -1 })
       .limit(5)
       .select("username email createdAt");
+
+    // Recent orders (last 5)
+    const recentOrders = await Order.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select("username totalAmount items status createdAt");
 
     // Category breakdown
     const categoryStats = await Zomato.aggregate([
@@ -25,11 +39,11 @@ export const getDashboardStats = async (_req, res) => {
       totalUsers,
       totalItems,
       totalRestaurants,
+      totalOrders,
+      revenue,
       recentUsers,
+      recentOrders,
       categoryStats,
-      // Static revenue & orders for demo
-      totalOrders: Math.floor(totalUsers * 3.7),
-      revenue: Math.floor(totalUsers * 3.7 * 249),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

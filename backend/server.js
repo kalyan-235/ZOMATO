@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import zomatoRouter from "./routes/zomato.routes.js";
 import authRouter   from "./routes/auth.routes.js";
 import adminRouter  from "./routes/admin.routes.js";
+import orderRouter  from "./routes/order.routes.js";
 
 connectDB();
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/zomato", zomatoRouter);
 app.use("/auth",   authRouter);
 app.use("/admin",  adminRouter);
+app.use("/orders", orderRouter);
 
 app.get("/", (_req, res) => res.send("Backend is running ✅"));
 

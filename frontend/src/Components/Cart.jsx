@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import API from '../api';
 import '../css/Cart.css';
 
 const fixImg = (src) =>
@@ -33,9 +35,37 @@ const Cart = () => {
     }
   };
 
-  const handlePlaceOrder = () => {
-    clearCart();
-    setOrdered(true);
+  const { user } = useAuth();
+  const [placing, setPlacing] = useState(false);
+
+  const handlePlaceOrder = async () => {
+    setPlacing(true);
+    try {
+      await API.post('/orders/place', {
+        userId:         user?.id   || null,
+        username:       user?.username || 'Guest',
+        items: cartItems.map(i => ({
+          itemId:   i.id,
+          name:     i.name,
+          image:    i.image,
+          price:    i.price,
+          quantity: i.quantity,
+        })),
+        subtotal,
+        deliveryCharge: delivery,
+        gst,
+        discount:    discountAmt,
+        totalAmount: Math.max(0, total),
+        couponCode:  discount > 0 ? coupon.toUpperCase() : '',
+      });
+    } catch (err) {
+      // Order still goes through on frontend even if API fails
+      console.error('Order save failed:', err.message);
+    } finally {
+      clearCart();
+      setOrdered(true);
+      setPlacing(false);
+    }
   };
 
   /* ── ORDER SUCCESS ── */
@@ -190,8 +220,8 @@ const Cart = () => {
             <p className="ct-free-hint">🚚 Add ₹{499 - subtotal} more for free delivery</p>
           )}
 
-          <button className="ct-place-btn" onClick={handlePlaceOrder}>
-            Place Order · ₹{Math.max(0, total)}
+          <button className="ct-place-btn" onClick={handlePlaceOrder} disabled={placing}>
+            {placing ? 'Placing Order…' : `Place Order · ₹${Math.max(0, total)}`}
           </button>
 
           {/* Safety badges */}
