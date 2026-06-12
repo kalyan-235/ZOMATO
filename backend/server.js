@@ -16,7 +16,12 @@ const app  = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: [
+    "http://localhost:5173",
+    "https://zomato-frontend-rose.vercel.app",
+    "https://zomato-frontend-li9uaiofd-kalyan-235s-projects.vercel.app",
+    /\.vercel\.app$/,
+  ],
   credentials: true,
 }));
 app.use(express.json());
