@@ -82,3 +82,9 @@
   color: white;
   transform: scale(1.05);
 }
+
+@media (max-width: 900px) {
+  .category-Bar {
+    justify-content: flex-start;
+  }
+}
