@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import API from '../api';
 import { useAuth } from '../context/AuthContext';
 
@@ -7,6 +7,7 @@ const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError]       = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
 
     const handleChange = (e) =>
@@ -19,11 +20,12 @@ const Login = () => {
             const res = await API.post('/auth/login', formData);
             login(res.data.user, res.data.token);
 
-            // Admin → dashboard, user → home
             if (res.data.user.role === 'admin') {
                 navigate('/admin/dashboard');
+            } else if (res.data.user.role === 'restaurant_owner') {
+                navigate('/restaurant/dashboard');
             } else {
-                navigate('/');
+                navigate(location.state?.from || '/');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');

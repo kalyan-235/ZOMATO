@@ -15,6 +15,65 @@
     max-width: 400px;
 }
 
+.signup-card.signup-role-card {
+    max-width: 520px;
+}
+
+.signup-account-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0 0 20px;
+}
+
+.signup-account-option {
+    display: flex;
+    min-height: 124px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px;
+    border: 1.5px solid #e3e5e8;
+    border-radius: 12px;
+    background: #fff;
+    color: #333 !important;
+    font: inherit;
+    text-align: left;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
+}
+
+.signup-account-option:hover,
+.signup-account-option-active {
+    border-color: #e85d26;
+    background: #fff7f3;
+    transform: translateY(-1px);
+}
+
+.signup-account-icon {
+    font-size: 1.4rem;
+}
+
+.signup-account-option strong {
+    color: #202124;
+    font-size: 0.9rem;
+}
+
+.signup-account-option small {
+    color: #777d83;
+    font-size: 0.72rem;
+    line-height: 1.4;
+}
+
+.signup-choice-hint {
+    margin: 0 0 12px;
+    color: #777d83;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
 .signup-card h2 {
     text-align: center;
     margin-bottom: 1.5rem;
@@ -73,4 +132,14 @@
 
 .signup-card a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .signup-account-options {
+        grid-template-columns: 1fr;
+    }
+
+    .signup-account-option {
+        min-height: 100px;
+    }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import API from "../api";
 import Hero from "../Components/Hero";
 import "../css/HomePage.css";
@@ -7,24 +7,13 @@ import "../css/HomePage.css";
 const fixImg = (src) =>
   src && !src.startsWith("/") && !src.startsWith("http") ? `/${src}` : src;
 
-/* ── Static category pills ── */
 const CATEGORIES = [
-  { label: "Biryani",   icon: "🍛", key: "Biryani" },
-  { label: "Burgers",   icon: "🍔", key: "Burger" },
-  { label: "Pizza",     icon: "🍕", key: "Pizza" },
-  { label: "Dosa",      icon: "🥞", key: "Dosa" },
-  { label: "Desserts",  icon: "🍰", key: "Desserts" },
-  { label: "Ice Cream", icon: "🍦", key: "Ice-Cream" },
-  { label: "Veg",       icon: "🥗", key: "Veg" },
-  { label: "Non-Veg",   icon: "🍗", key: "Non-veg" },
-];
-
-/* ── Why choose us ── */
-const WHY = [
-  { icon: "⚡", title: "Lightning Fast",  desc: "Average delivery in under 30 minutes, every time." },
-  { icon: "✅", title: "Quality Assured", desc: "Every restaurant is hygiene-verified and quality-checked." },
-  { icon: "💰", title: "Best Prices",     desc: "Unbeatable deals, daily offers and free delivery options." },
-  { icon: "🔒", title: "100% Safe",       desc: "Secure payments and contactless delivery guaranteed." },
+  { label: "Biryani", key: "Biryani", image: "/IMAGES/chicken_Biryani.avif" },
+  { label: "Pizza", key: "Pizza", image: "/IMAGES/Margherita_Pizza.webp" },
+  { label: "Burger", key: "Burger", image: "/IMAGES/burger_2.webp" },
+  { label: "South Indian", key: "South Indian", image: "/IMAGES/dosa.jpg" },
+  { label: "Chinese", key: "Chinese", image: "/IMAGES/Chicken_Friedrice.jpeg" },
+  { label: "North Indian", key: "North Indian", image: "/IMAGES/Paneer_Butter_Masala.webp" },
 ];
 
 /* ── Top dishes (static with your images) ── */
@@ -40,30 +29,10 @@ const TOP_DISHES = [
 ];
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [restaurants, setRestaurants] = useState([]);
   const [topItems, setTopItems]       = useState([]);
 
   useEffect(() => {
     API.get("/zomato").then((res) => {
-      // Featured restaurants
-      const map = {};
-      res.data.forEach((item) => {
-        if (!map[item.restaurant]) {
-          map[item.restaurant] = {
-            name:   item.restaurant,
-            image:  fixImg(item.image),
-            rating: (4 + Math.random()).toFixed(1),
-            time:   `${20 + Math.floor(Math.random() * 20)}-${35 + Math.floor(Math.random() * 15)} min`,
-            tag:    ["Pure Veg", "North Indian", "South Indian", "Fast Food", "Multi Cuisine"][
-                      Math.floor(Math.random() * 5)
-                    ],
-          };
-        }
-      });
-      setRestaurants(Object.values(map).slice(0, 6));
-
-      // Top rated items
       const sorted = [...res.data].sort((a, b) => (b.rating || 0) - (a.rating || 0));
       setTopItems(sorted.slice(0, 8));
     });
@@ -78,64 +47,22 @@ const Home = () => {
       {/* ── CATEGORY STRIP ── */}
       <section className="hp-section hp-categories-section">
         <div className="hp-inner">
-          <h2 className="hp-section-title">What's on your mind?</h2>
+          <div className="hp-flex-head">
+            <h2 className="hp-section-title">What's on your mind?</h2>
+            <Link to="/category" className="hp-see-all">View all →</Link>
+          </div>
           <div className="hp-cat-strip">
             {CATEGORIES.map((c) => (
               <Link
-                to={`/category`}
+                to={`/category/${encodeURIComponent(c.key)}`}
                 className="hp-cat-pill"
                 key={c.key}
               >
-                <span className="hp-cat-icon">{c.icon}</span>
+                <img className="hp-cat-image" src={c.image} alt="" />
                 <span className="hp-cat-label">{c.label}</span>
               </Link>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── FEATURED RESTAURANTS ── */}
-      <section className="hp-section hp-rest-section">
-        <div className="hp-inner">
-          <div className="hp-flex-head">
-            <h2 className="hp-section-title">Featured Restaurants</h2>
-            <Link to="/Restaurants" className="hp-see-all">See all →</Link>
-          </div>
-          <div className="hp-rest-grid">
-            {restaurants.map((r, i) => (
-              <div
-                className="hp-rest-card"
-                key={i}
-                onClick={() => navigate(`/restname/${r.name}`, { state: { from: "home" } })}
-              >
-                <div className="hp-rest-img-wrap">
-                  <img src={r.image} alt={r.name} className="hp-rest-img" />
-                  <span className="hp-rest-tag">{r.tag}</span>
-                </div>
-                <div className="hp-rest-info">
-                  <h3 className="hp-rest-name">{r.name}</h3>
-                  <div className="hp-rest-meta">
-                    <span className="hp-rest-rating">⭐ {r.rating}</span>
-                    <span className="hp-rest-dot">•</span>
-                    <span className="hp-rest-time">🕐 {r.time}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── OFFER BANNER ── */}
-      <section className="hp-offer-banner">
-        <div className="hp-offer-left">
-          <span className="hp-offer-badge">🔥 Limited Time</span>
-          <h2>Get <span>50% OFF</span> on your first order!</h2>
-          <p>Use code <strong>FIRST50</strong> at checkout. Valid for new users only.</p>
-          <Link to="/offers" className="hp-offer-btn">Grab the Deal →</Link>
-        </div>
-        <div className="hp-offer-right">
-          <img src="/IMAGES/BiryaniCombo.avif" alt="Offer" />
         </div>
       </section>
 
@@ -165,22 +92,6 @@ const Home = () => {
                     )}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY US ── */}
-      <section className="hp-why-section">
-        <div className="hp-inner">
-          <h2 className="hp-section-title hp-center">Why Choose Food Express?</h2>
-          <div className="hp-why-grid">
-            {WHY.map((w, i) => (
-              <div className="hp-why-card" key={i}>
-                <div className="hp-why-icon">{w.icon}</div>
-                <h4>{w.title}</h4>
-                <p>{w.desc}</p>
               </div>
             ))}
           </div>

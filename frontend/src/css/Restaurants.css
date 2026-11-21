@@ -307,3 +307,38 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── STATE BOXES (loading / error / empty) ── */
+.rp-state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+}
+.rp-state-box p { margin: 0; }
+.rp-error { color: #e23744; }
+
+.rp-spinner {
+  width: 36px; height: 36px;
+  border: 4px solid #f0f0f0;
+  border-top-color: #e85d26;
+  border-radius: 50%;
+  animation: rp-spin 0.7s linear infinite;
+}
+@keyframes rp-spin { to { transform: rotate(360deg); } }
+
+.rp-clear-search {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+.rp-clear-search:hover { color: #e23744; }

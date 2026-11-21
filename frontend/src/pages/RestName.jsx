@@ -3,6 +3,7 @@ import API from "../api";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import MenuOverlay from "../MenuCards_List/MenuCard2";
+import FoodDetailModal from "../Components/FoodDetailModal";
 import "../css/RestName.css";
 
 /* Static descriptions per restaurant – fallback if name not found */
@@ -39,6 +40,7 @@ const RestName = () => {
   const [added, setAdded]             = useState({});
   const [loading, setLoading]         = useState(true);
   const [showMenu, setShowMenu]       = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null); // modal
 
   useEffect(() => {
     API
@@ -149,7 +151,12 @@ const RestName = () => {
 
           <div className="rn-grid">
             {displayed.map((item) => (
-              <div className="rn-card" key={item._id}>
+              <div
+                className="rn-card"
+                key={item._id}
+                onClick={() => setSelectedItem(item)}
+                style={{ cursor: "pointer" }}
+              >
 
                 {/* Image */}
                 <div className="rn-card-img-wrap">
@@ -174,7 +181,7 @@ const RestName = () => {
                     </div>
                     <button
                       className={`rn-add-btn ${added[item._id] ? "rn-added" : ""}`}
-                      onClick={() => handleAdd(item)}
+                      onClick={(e) => { e.stopPropagation(); handleAdd(item); }}
                     >
                       {added[item._id] ? "✓ Added" : "+ Add"}
                     </button>
@@ -193,6 +200,14 @@ const RestName = () => {
         <MenuOverlay
           restaurant={name}
           onClose={() => setShowMenu(false)}
+        />
+      )}
+
+      {/* ── FOOD DETAIL MODAL ── */}
+      {selectedItem && (
+        <FoodDetailModal
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
         />
       )}
 

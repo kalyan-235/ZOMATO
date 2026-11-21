@@ -512,3 +512,143 @@
   display: block;
   margin: 0 auto;
 }
+
+/* ── ADMIN ORDERS PAGE ── */
+
+/* Status filter pills */
+.ado-status-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.ado-pill {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  color: #555;
+}
+.ado-pill span {
+  background: #f0f0f0;
+  color: #666;
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+.ado-pill:hover { border-color: #e85d26; color: #e85d26; }
+.ado-pill-active {
+  background: #e85d26 !important;
+  border-color: #e85d26 !important;
+  color: #fff !important;
+}
+.ado-pill-active span { background: rgba(255,255,255,0.25); color: #fff; }
+
+/* Order ID */
+.ado-order-id {
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #555;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* Status dropdown */
+.ado-status-select {
+  border: 1.5px solid;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.2s;
+}
+.ado-status-select:disabled { opacity: 0.6; cursor: not-allowed; }
+.ado-updating { font-size: 0.78rem; color: #aaa; margin-left: 6px; }
+
+/* Expanded row highlight */
+.ado-expanded-row td { background: #fafafa; }
+
+/* Detail box */
+.ado-detail-row td { padding: 0 !important; }
+.ado-detail-box {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 0;
+  background: #f9f9f9;
+  border-top: 2px solid #f0f0f0;
+  padding: 20px;
+  gap: 24px;
+}
+
+.ado-detail-section h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+}
+
+/* Items mini-table */
+.ado-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.ado-items-table th {
+  text-align: left;
+  padding: 6px 10px;
+  background: #f0f0f0;
+  font-weight: 700;
+  color: #555;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+.ado-items-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f5f5f5;
+  color: #333;
+  vertical-align: middle;
+}
+.ado-item-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Bill summary */
+.ado-bill { background: #fff; border-radius: 12px; padding: 16px; }
+.ado-bill-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #666;
+  padding: 4px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+.ado-bill-row:last-child { border: none; }
+.ado-bill-total {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 2px solid #f0f0f0 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ado-detail-box { grid-template-columns: 1fr; }
+}

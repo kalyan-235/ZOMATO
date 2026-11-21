@@ -2,6 +2,7 @@ import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import Restaurant from "../model/restaurant.model.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "foodexpress_secret_2026";
 
@@ -52,15 +53,45 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    let restaurant;
+    if (user.role === "restaurant_owner") {
+      restaurant = await Restaurant.findOne({ owner: user._id });
+      if (!restaurant) {
+        return res.status(403).json({ message: "No restaurant application is associated with this account." });
+      }
+      if (restaurant.approvalStatus !== "approved") {
+        const message = restaurant.approvalStatus === "rejected"
+          ? "Your restaurant application was rejected. Please contact support."
+          : "Your restaurant application is awaiting admin approval.";
+        return res.status(403).json({ message, approvalStatus: restaurant.approvalStatus });
+      }
+    }
+
+    const tokenPayload = { id: user._id, role: user.role };
+    if (restaurant) tokenPayload.restaurantId = restaurant._id;
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      tokenPayload,
       JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.json({
+    const userData = {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    };
+    if (restaurant) {
+      userData.restaurant = {
+        id: restaurant._id,
+        name: restaurant.name,
+        approvalStatus: restaurant.approvalStatus,
+      };
+    }
+
+    return res.json({
       token,
-      user: { id: user._id, username: user.username, email: user.email, role: user.role },
+      user: userData,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

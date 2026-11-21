@@ -120,6 +120,11 @@
       padding: 4px 10px;
       cursor: pointer;
       font-size: 13px;
+      transition: background-color 0.2s ease;
+    }
+
+    .add-btn:hover {
+      background: #e85d26;
     }
 
     .restaurant {

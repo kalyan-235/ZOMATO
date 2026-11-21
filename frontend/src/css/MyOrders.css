@@ -1,0 +1,86 @@
+/* ── MY ORDERS PAGE ── */
+.mo-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.mo-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.mo-header h1 { font-size: 1.4rem; font-weight: 800; color: #1a1a1a; margin: 0; flex: 1; }
+.mo-back {
+  background: transparent; border: 1.5px solid #ddd;
+  border-radius: 8px; padding: 7px 14px; font-size: 0.85rem;
+  cursor: pointer; font-family: 'Poppins', sans-serif;
+  transition: all 0.2s; color: #555;
+}
+.mo-back:hover { border-color: #e85d26; color: #e85d26; }
+.mo-count { font-size: 0.8rem; color: #aaa; font-weight: 600; }
+
+/* State boxes */
+.mo-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 12px; padding: 60px 24px;
+  text-align: center; color: #888;
+}
+.mo-state p { margin: 0; font-size: 0.9rem; }
+.mo-error  { color: #e23744; }
+.mo-empty-icon { font-size: 3rem; }
+
+.mo-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid #f0f0f0;
+  border-top-color: #e85d26;
+  border-radius: 50%;
+  animation: mo-spin 0.7s linear infinite;
+}
+@keyframes mo-spin { to { transform: rotate(360deg); } }
+
+.mo-btn {
+  background: #e85d26; color: #fff; border-radius: 8px;
+  padding: 10px 22px; text-decoration: none; font-size: 0.88rem;
+  font-weight: 600; transition: background 0.2s;
+}
+.mo-btn:hover { background: #c94d1a; }
+
+/* Order list */
+.mo-list { display: flex; flex-direction: column; gap: 16px; }
+
+.mo-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.mo-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid #f5f5f5;
+}
+.mo-order-id { font-size: 0.82rem; font-weight: 700; color: #1a1a1a; margin: 0 0 2px; }
+.mo-date     { font-size: 0.75rem; color: #aaa; margin: 0; }
+
+.mo-status-badge {
+  font-size: 0.75rem; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px; white-space: nowrap;
+}
+
+.mo-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.mo-item  { display: flex; align-items: center; font-size: 0.85rem; }
+.mo-item-name  { flex: 1; color: #333; }
+.mo-item-qty   { color: #888; margin: 0 12px; }
+.mo-item-price { font-weight: 600; color: #1a1a1a; }
+
+.mo-bill { border-top: 1.5px solid #f5f5f5; padding-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.mo-bill-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: #666; }
+.mo-total     { font-weight: 800; font-size: 0.95rem; color: #1a1a1a; margin-top: 4px; }
+.mo-discount  { color: #16a34a; font-weight: 700; }

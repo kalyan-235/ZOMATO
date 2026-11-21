@@ -62,9 +62,16 @@ export const getAllUsers = async (_req, res) => {
   }
 };
 
-/* ── DELETE USER ── */
+/* ── DELETE USER — with self-deletion guard ── */
 export const deleteUser = async (req, res) => {
   try {
+    // Prevent admin from deleting themselves
+    if (req.params.id === req.user.id) {
+      return res.status(400).json({ message: "You cannot delete your own account." });
+    }
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found." });
+
     await User.findByIdAndDelete(req.params.id);
     res.json({ message: "User deleted." });
   } catch (error) {

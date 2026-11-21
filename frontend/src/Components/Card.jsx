@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Card({ itemsData }) {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   return (
     <div className="cards">
@@ -27,7 +29,13 @@ function Card({ itemsData }) {
               className="add-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                alert("Added to cart");
+                addToCart({
+                  id: item._id,
+                  name: item.name,
+                  image: item.image,
+                  price: Number(item.price),
+                  restaurant: item.restaurant,
+                });
               }}
             >
               ADD

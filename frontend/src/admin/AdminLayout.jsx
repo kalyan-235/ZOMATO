@@ -3,10 +3,12 @@ import { useAuth } from '../context/AuthContext';
 import './admin.css';
 
 const NAV_ITEMS = [
-  { path: '/admin/dashboard',      icon: '📊', label: 'Dashboard'       },
-  { path: '/admin/manage-items',   icon: '🍽️', label: 'Manage Items'    },
-  { path: '/admin/manage-users',   icon: '👥', label: 'Manage Users'    },
-  { path: '/admin/restaurants',    icon: '🏪', label: 'Restaurants'     },
+  { path: '/admin/dashboard',    icon: '📊', label: 'Dashboard'    },
+  { path: '/admin/orders',       icon: '📦', label: 'All Orders'   },
+  { path: '/admin/manage-items', icon: '🍽️', label: 'Manage Items' },
+  { path: '/admin/manage-users', icon: '👥', label: 'Manage Users' },
+  { path: '/admin/restaurants',  icon: '🏪', label: 'Restaurants'  },
+  { path: '/admin/restaurant-applications', icon: '📋', label: 'Applications' },
 ];
 
 const AdminLayout = ({ children }) => {

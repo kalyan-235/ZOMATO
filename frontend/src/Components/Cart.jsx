@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -10,40 +10,64 @@ const fixImg = (src) =>
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart();
-  const navigate = useNavigate();
-  const [coupon, setCoupon]       = useState('');
-  const [discount, setDiscount]   = useState(0);
-  const [couponMsg, setCouponMsg] = useState('');
-  const [ordered, setOrdered]     = useState(false);
+  const { user }   = useAuth();
+  const navigate   = useNavigate();
 
-  const VALID_COUPONS = { FIRST50: 0.5, SAVE100: 100, FREEDEL: 0, WEEKEND30: 0.3 };
+  const [coupon,      setCoupon]      = useState('');
+  const [discount,    setDiscount]    = useState(0);
+  const [couponMsg,   setCouponMsg]   = useState('');
+  const [couponOk,    setCouponOk]    = useState(false);
+  const [validating,  setValidating]  = useState(false);
+  const [ordered,     setOrdered]     = useState(false);
+  const [orderCount,  setOrderCount]  = useState(0);
+  const [placing,     setPlacing]     = useState(false);
+  const [toast,       setToast]       = useState('');
 
-  const subtotal  = getTotalPrice();
-  const delivery  = subtotal >= 499 ? 0 : 40;
-  const gst       = Math.round(subtotal * 0.05);
-  const discountAmt = discount >= 1 ? discount : Math.round(subtotal * discount);
-  const total     = subtotal + delivery + gst - discountAmt;
+  const subtotal    = getTotalPrice();
+  const delivery    = subtotal >= 499 ? 0 : 40;
+  const gst         = Math.round(subtotal * 0.05);
+  const total       = Math.max(0, subtotal + delivery + gst - discount);
 
-  const handleCoupon = () => {
-    const val = VALID_COUPONS[coupon.toUpperCase()];
-    if (val !== undefined) {
-      setDiscount(val);
-      setCouponMsg(`✅ Coupon applied! You save ₹${val >= 1 ? val : Math.round(subtotal * val)}`);
-    } else {
+  useEffect(() => {
+    if (!toast) return undefined;
+    const timeout = window.setTimeout(() => setToast(''), 4500);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
+
+  /* ── VALIDATE COUPON via backend ── */
+  const handleCoupon = async () => {
+    if (!coupon.trim()) return;
+    setValidating(true);
+    setCouponMsg('');
+    try {
+      const res = await API.post('/orders/validate-coupon', {
+        code: coupon.trim(),
+        subtotal,
+      });
+      setDiscount(res.data.discountAmt);
+      setCouponMsg(res.data.message);
+      setCouponOk(true);
+    } catch (err) {
       setDiscount(0);
-      setCouponMsg('❌ Invalid coupon code.');
+      setCouponOk(false);
+      setCouponMsg(err.response?.data?.message || '❌ Invalid coupon code.');
+    } finally {
+      setValidating(false);
     }
   };
 
-  const { user } = useAuth();
-  const [placing, setPlacing] = useState(false);
-
+  /* ── PLACE ORDER ── */
   const handlePlaceOrder = async () => {
+    if (user?.role !== 'user') {
+      setToast(user
+        ? 'Please use a customer account to place your order.'
+        : 'Please log in to place your order.');
+      return;
+    }
+
     setPlacing(true);
     try {
-      await API.post('/orders/place', {
-        userId:         user?.id   || null,
-        username:       user?.username || 'Guest',
+      const response = await API.post('/orders/place', {
         items: cartItems.map(i => ({
           itemId:   i.id,
           name:     i.name,
@@ -54,16 +78,16 @@ const Cart = () => {
         subtotal,
         deliveryCharge: delivery,
         gst,
-        discount:    discountAmt,
-        totalAmount: Math.max(0, total),
-        couponCode:  discount > 0 ? coupon.toUpperCase() : '',
+        discount,
+        totalAmount:    total,
+        couponCode:     couponOk ? coupon.toUpperCase() : '',
       });
-      // Only clear cart and show success if order was saved successfully
+      setOrderCount(response.data.orderIds?.length || 1);
       clearCart();
       setOrdered(true);
     } catch (err) {
-      console.error('Order save failed:', err.message);
-      alert('Failed to place order. Please try again.');
+      console.error('Order failed:', err.message);
+      alert(err.response?.data?.message || 'Failed to place order. Please try again.');
     } finally {
       setPlacing(false);
     }
@@ -76,10 +100,15 @@ const Cart = () => {
         <div className="ct-success">
           <div className="ct-success-icon">🎉</div>
           <h2>Order Placed Successfully!</h2>
-          <p>Your food is being prepared. Estimated delivery: <strong>30–45 min</strong></p>
+          <p>
+            {orderCount > 1
+              ? `Your order was split into ${orderCount} restaurant orders.`
+              : 'Your food is being prepared.'}
+            {' '}Estimated delivery: <strong>30–45 min</strong>
+          </p>
           <div className="ct-success-actions">
             <button className="ct-btn-primary" onClick={() => navigate('/')}>Back to Home</button>
-            <Link to="/Restaurants" className="ct-btn-outline">Order More</Link>
+            <Link to="/my-orders" className="ct-btn-outline">View Orders</Link>
           </div>
         </div>
       </div>
@@ -102,7 +131,24 @@ const Cart = () => {
 
   return (
     <div className="ct-page">
-      {/* ── HEADER ── */}
+      {toast && (
+        <div className="ct-toast" role="alert">
+          <span>{toast}</span>
+          {!user && (
+            <Link to="/login" state={{ from: '/cart' }} className="ct-toast-login">
+              Login
+            </Link>
+          )}
+          <button
+            type="button"
+            className="ct-toast-close"
+            onClick={() => setToast('')}
+            aria-label="Dismiss notification"
+          >
+            ×
+          </button>
+        </div>
+      )}
       <div className="ct-header">
         <button className="ct-back" onClick={() => navigate(-1)}>← Back</button>
         <div className="ct-header-center">
@@ -113,11 +159,7 @@ const Cart = () => {
       </div>
 
       <div className="ct-body">
-
-        {/* ── LEFT: CART ITEMS ── */}
         <div className="ct-items-col">
-
-          {/* Restaurant group label */}
           <div className="ct-rest-label">
             <span>🍴</span>
             <span>{cartItems[0]?.restaurant || 'Your Order'}</span>
@@ -125,37 +167,24 @@ const Cart = () => {
 
           {cartItems.map((item) => (
             <div className="ct-item" key={item.id}>
-              <img
-                src={fixImg(item.image)}
-                alt={item.name}
-                className="ct-item-img"
-              />
+              <img src={fixImg(item.image)} alt={item.name} className="ct-item-img" />
               <div className="ct-item-info">
                 <h3 className="ct-item-name">{item.name}</h3>
                 <p className="ct-item-price">₹{item.price} <span>per item</span></p>
               </div>
               <div className="ct-qty">
-                <button
-                  className="ct-qty-btn"
-                  onClick={() => item.quantity === 1
-                    ? removeFromCart(item.id)
-                    : updateQuantity(item.id, item.quantity - 1)
-                  }
-                >−</button>
+                <button className="ct-qty-btn"
+                  onClick={() => item.quantity === 1 ? removeFromCart(item.id) : updateQuantity(item.id, item.quantity - 1)}>−</button>
                 <span className="ct-qty-num">{item.quantity}</span>
-                <button
-                  className="ct-qty-btn ct-qty-plus"
-                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                >+</button>
+                <button className="ct-qty-btn ct-qty-plus"
+                  onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
               </div>
-              <div className="ct-item-subtotal">
-                ₹{item.price * item.quantity}
-              </div>
+              <div className="ct-item-subtotal">₹{item.price * item.quantity}</div>
               <button className="ct-remove" onClick={() => removeFromCart(item.id)} title="Remove">✕</button>
             </div>
           ))}
 
-          {/* Coupon */}
+          {/* Coupon — validated via backend */}
           <div className="ct-coupon-box">
             <div className="ct-coupon-icon">🎟️</div>
             <input
@@ -163,20 +192,21 @@ const Cart = () => {
               type="text"
               placeholder="Enter coupon code (e.g. FIRST50)"
               value={coupon}
-              onChange={(e) => setCoupon(e.target.value)}
+              onChange={(e) => { setCoupon(e.target.value); setCouponOk(false); setDiscount(0); setCouponMsg(''); }}
               onKeyDown={(e) => e.key === 'Enter' && handleCoupon()}
+              disabled={couponOk}
             />
-            <button className="ct-coupon-btn" onClick={handleCoupon}>Apply</button>
+            {couponOk
+              ? <button className="ct-coupon-btn ct-coupon-remove" onClick={() => { setDiscount(0); setCouponOk(false); setCoupon(''); setCouponMsg(''); }}>Remove</button>
+              : <button className="ct-coupon-btn" onClick={handleCoupon} disabled={validating}>{validating ? '…' : 'Apply'}</button>
+            }
           </div>
-          {couponMsg && <p className={`ct-coupon-msg ${couponMsg.startsWith('✅') ? 'ct-coupon-ok' : 'ct-coupon-err'}`}>{couponMsg}</p>}
-
+          {couponMsg && <p className={`ct-coupon-msg ${couponOk ? 'ct-coupon-ok' : 'ct-coupon-err'}`}>{couponMsg}</p>}
         </div>
 
-        {/* ── RIGHT: BILL SUMMARY ── */}
+        {/* Bill summary */}
         <div className="ct-summary">
           <h3 className="ct-summary-title">Order Summary</h3>
-
-          {/* Item breakdown */}
           <div className="ct-summary-items">
             {cartItems.map((item, i) => (
               <div className="ct-summary-row" key={i}>
@@ -185,54 +215,28 @@ const Cart = () => {
               </div>
             ))}
           </div>
-
           <div className="ct-divider" />
-
-          {/* Charges */}
-          <div className="ct-summary-row">
-            <span>Subtotal</span>
-            <span>₹{subtotal}</span>
-          </div>
+          <div className="ct-summary-row"><span>Subtotal</span><span>₹{subtotal}</span></div>
           <div className="ct-summary-row">
             <span>Delivery {delivery === 0 && <span className="ct-free-tag">FREE</span>}</span>
-            <span className={delivery === 0 ? 'ct-green' : ''}>
-              {delivery === 0 ? '₹0' : `₹${delivery}`}
-            </span>
+            <span className={delivery === 0 ? 'ct-green' : ''}>{delivery === 0 ? '₹0' : `₹${delivery}`}</span>
           </div>
-          <div className="ct-summary-row">
-            <span>GST (5%)</span>
-            <span>₹{gst}</span>
-          </div>
-          {discountAmt > 0 && (
-            <div className="ct-summary-row ct-discount-row">
-              <span>Coupon Discount</span>
-              <span>− ₹{discountAmt}</span>
-            </div>
+          <div className="ct-summary-row"><span>GST (5%)</span><span>₹{gst}</span></div>
+          {discount > 0 && (
+            <div className="ct-summary-row ct-discount-row"><span>Coupon Discount</span><span>− ₹{discount}</span></div>
           )}
-
           <div className="ct-divider" />
-
-          <div className="ct-summary-row ct-total-row">
-            <span>Total</span>
-            <span>₹{Math.max(0, total)}</span>
-          </div>
-
-          {delivery > 0 && (
-            <p className="ct-free-hint">🚚 Add ₹{499 - subtotal} more for free delivery</p>
-          )}
-
+          <div className="ct-summary-row ct-total-row"><span>Total</span><span>₹{total}</span></div>
+          {delivery > 0 && <p className="ct-free-hint">🚚 Add ₹{499 - subtotal} more for free delivery</p>}
           <button className="ct-place-btn" onClick={handlePlaceOrder} disabled={placing}>
-            {placing ? 'Placing Order…' : `Place Order · ₹${Math.max(0, total)}`}
+            {placing ? 'Placing Order…' : `Place Order · ₹${total}`}
           </button>
-
-          {/* Safety badges */}
           <div className="ct-badges">
             <span>🔒 Secure Payment</span>
             <span>✅ Verified Restaurants</span>
             <span>⚡ Fast Delivery</span>
           </div>
         </div>
-
       </div>
     </div>
   );

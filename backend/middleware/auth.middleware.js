@@ -22,3 +22,17 @@ export const adminOnly = (req, res, next) => {
   }
   next();
 };
+
+export const customerOnly = (req, res, next) => {
+  if (req.user?.role !== "user") {
+    return res.status(403).json({ message: "Only customer accounts can place orders." });
+  }
+  next();
+};
+
+export const restaurantOwnerOnly = (req, res, next) => {
+  if (req.user?.role !== "restaurant_owner" || !req.user?.restaurantId) {
+    return res.status(403).json({ message: "Access denied. Restaurant owners only." });
+  }
+  next();
+};

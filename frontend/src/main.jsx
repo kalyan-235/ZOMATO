@@ -23,6 +23,9 @@ import './css/Login.css';
 import './css/Signup.css';
 import './css/Cart.css';
 import './css/Auth.css';
+import './css/MyOrders.css';
+import './css/NotFound.css';
+import './css/FoodDetailModal.css';
 import './App.css';
 import './admin/admin.css';
 

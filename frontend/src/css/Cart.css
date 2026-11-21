@@ -9,6 +9,48 @@
   padding: 24px 24px 60px;
 }
 
+.ct-toast {
+  position: fixed;
+  top: 84px;
+  left: 50%;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 12px 14px 12px 18px;
+  transform: translateX(-50%);
+  border: 1px solid #ffd1cf;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(32, 33, 36, 0.16);
+  color: #a92c25;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ct-toast-login {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border-radius: 7px;
+  background: #e85d26;
+  color: #fff;
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.ct-toast-close {
+  flex-shrink: 0;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: #a92c25;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
 /* ── HEADER ── */
 .ct-header {
   max-width: 1100px;

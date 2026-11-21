@@ -38,6 +38,9 @@ const NavBar = () => {
         <li><NavLink to="/Restaurants" className={navLinkClass} onClick={closeMenu}>Restaurants</NavLink></li>
         <li><NavLink to="/offers"      className={navLinkClass} onClick={closeMenu}>Offers</NavLink></li>
         <li><NavLink to="/about"       className={navLinkClass} onClick={closeMenu}>About</NavLink></li>
+        {user && (
+          <li><NavLink to="/my-orders" className={navLinkClass} onClick={closeMenu}>My Orders</NavLink></li>
+        )}
       </ul>
 
       {/* ── RIGHT ACTIONS ── */}
