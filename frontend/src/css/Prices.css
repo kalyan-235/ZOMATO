@@ -39,4 +39,48 @@
     font-size: 12px;
     color: #666;
 }
+
+@media (max-width: 900px) {
+    .prices-container {
+        padding: 4px 12px 10px;
+    }
+
+    .prices-container h2 {
+        display: none;
+    }
+
+    .prices-cards {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 2px 0;
+    }
+
+    .prices-cards::-webkit-scrollbar {
+        display: none;
+    }
+
+    .price-card {
+        flex: 0 0 auto;
+        width: auto;
+        min-width: 72px;
+        height: 38px;
+        padding: 0 10px;
+        border-radius: 20px;
+        box-shadow: none;
+    }
+
+    .price-card.selected {
+        background: #e85d26;
+        border-color: #e85d26;
+        color: #fff;
+    }
+
+    .price-card.selected h3,
+    .price-card.selected:hover h3 {
+        color: #fff;
+    }
+}
  

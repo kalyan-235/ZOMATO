@@ -1,6 +1,28 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import API from '../api';
 import RestaurantLayout from './RestaurantLayout';
+
+const ImagePreview = ({ src }) => {
+  const [failed, setFailed] = useState(false);
+  if (!src) return null;
+
+  return (
+    <div className="restaurant-menu-image-preview">
+      {failed ? (
+        <p className="restaurant-menu-image-preview-error" role="status">
+          Image preview unavailable. Check the URL or choose another image.
+        </p>
+      ) : (
+        <img
+          src={src}
+          alt="Menu item preview"
+          className="adm-img-preview"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </div>
+  );
+};
 
 const EMPTY_FORM = {
   name: '',
@@ -12,11 +34,17 @@ const EMPTY_FORM = {
   description: '',
 };
 
-const getImageSource = (image) => (
-  image && !image.startsWith('/') && !image.startsWith('http') ? `/${image}` : image
-);
+const getImageSource = (image) => {
+  if (!image) return '';
+  try {
+    return new URL(image).toString();
+  } catch {
+    return image.startsWith('/') ? image : `/${image}`;
+  }
+};
 
 const RestaurantMenu = () => {
+  const fileInputRef = useRef(null);
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(EMPTY_FORM);
@@ -27,6 +55,8 @@ const RestaurantMenu = () => {
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState('');
   const [formOpen, setFormOpen] = useState(false);
+  const [imageMode, setImageMode] = useState('url');
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
@@ -66,6 +96,8 @@ const RestaurantMenu = () => {
     setForm({ ...EMPTY_FORM, category: categories[0] || '' });
     setEditingId('');
     setFormOpen(false);
+    setImageMode('url');
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const openNewItemForm = () => {
@@ -74,6 +106,7 @@ const RestaurantMenu = () => {
     setForm({ ...EMPTY_FORM, category: categories[0] || '' });
     setEditingId('');
     setFormOpen(true);
+    setImageMode('url');
   };
 
   const handleEdit = (item) => {
@@ -89,8 +122,40 @@ const RestaurantMenu = () => {
       time: item.time || '',
       description: item.description || '',
     });
+    setImageMode(item.image?.startsWith('http') ? 'url' : 'upload');
     setFormOpen(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+    const supportedImageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+    if (!supportedImageTypes.includes(file.type)) {
+      setError('Choose a JPG, PNG, WEBP, or AVIF image.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image must be 5 MB or smaller.');
+      return;
+    }
+
+    setUploadingImage(true);
+    setError('');
+    setNotice('');
+    try {
+      const data = new FormData();
+      data.append('image', file);
+      const response = await API.post('/restaurant/menu/image', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setForm((current) => ({ ...current, image: response.data.url }));
+      setNotice('Image uploaded successfully.');
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || 'Unable to upload image.');
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -211,16 +276,79 @@ const RestaurantMenu = () => {
                 onChange={(event) => setForm({ ...form, oldPrice: event.target.value })}
               />
             </div>
-            <div className="adm-form-group">
-              <label htmlFor="restaurant-item-image">Image URL</label>
-              <input
-                id="restaurant-item-image"
-                name="image"
-                type="url"
-                value={form.image}
-                onChange={(event) => setForm({ ...form, image: event.target.value })}
-                placeholder="https://..."
-              />
+            <div className="adm-form-group adm-form-full">
+              <label>Item Image</label>
+              <div className="adm-img-toggle" role="tablist" aria-label="Choose image source">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={imageMode === 'url'}
+                  className={imageMode === 'url' ? 'adm-img-tab-active' : 'adm-img-tab'}
+                  onClick={() => setImageMode('url')}
+                >
+                  Paste Image URL
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={imageMode === 'upload'}
+                  className={imageMode === 'upload' ? 'adm-img-tab-active' : 'adm-img-tab'}
+                  onClick={() => setImageMode('upload')}
+                >
+                  Upload from device
+                </button>
+              </div>
+              {imageMode === 'url' ? (
+                <div className="adm-url-input-wrap">
+                  <input
+                    id="restaurant-item-image"
+                    name="image"
+                    type="url"
+                    value={form.image}
+                    onChange={(event) => setForm({ ...form, image: event.target.value })}
+                    placeholder="https://example.com/food.jpg"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="adm-upload-area"
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDrop={(event) => {
+                    event.preventDefault();
+                    handleImageUpload(event.dataTransfer.files[0]);
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      fileInputRef.current?.click();
+                    }
+                  }}
+                  aria-label="Choose or drop a food image to upload"
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/avif"
+                    hidden
+                    onChange={(event) => handleImageUpload(event.target.files[0])}
+                  />
+                  {uploadingImage ? (
+                    <div className="adm-upload-uploading">
+                      <span className="adm-spinner" /> Uploading image…
+                    </div>
+                  ) : (
+                    <div className="adm-upload-placeholder">
+                      <span>☁️</span>
+                      <p>Click to choose an image or drag it here</p>
+                      <small>JPG, PNG, WEBP, AVIF · max 5 MB</small>
+                    </div>
+                  )}
+                </div>
+              )}
+              {form.image && <ImagePreview key={form.image} src={getImageSource(form.image)} />}
             </div>
             <div className="adm-form-group">
               <label htmlFor="restaurant-item-time">Preparation Time</label>
@@ -247,8 +375,8 @@ const RestaurantMenu = () => {
           </div>
 
           <div className="adm-form-actions">
-            <button className="adm-btn-primary" type="submit" disabled={saving || categories.length === 0}>
-              {saving ? 'Saving…' : editingId ? 'Update Item' : 'Add Item'}
+            <button className="adm-btn-primary" type="submit" disabled={saving || uploadingImage || categories.length === 0}>
+              {saving ? 'Saving…' : uploadingImage ? 'Uploading…' : editingId ? 'Update Item' : 'Add Item'}
             </button>
             <button className="adm-btn-outline" type="button" onClick={resetForm} disabled={saving}>
               Cancel

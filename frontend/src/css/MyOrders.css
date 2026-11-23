@@ -84,3 +84,36 @@
 .mo-bill-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: #666; }
 .mo-total     { font-weight: 800; font-size: 0.95rem; color: #1a1a1a; margin-top: 4px; }
 .mo-discount  { color: #16a34a; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .mo-page {
+    max-width: 100%;
+    padding: 20px 14px 100px;
+  }
+
+  .mo-header {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .mo-header h1 {
+    font-size: 1.12rem;
+  }
+
+  .mo-back {
+    padding: 7px 10px;
+  }
+
+  .mo-card {
+    border-radius: 12px;
+    padding: 16px 14px;
+  }
+
+  .mo-card-head {
+    gap: 8px;
+  }
+
+  .mo-status-badge {
+    padding: 4px 8px;
+  }
+}

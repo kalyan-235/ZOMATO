@@ -86,5 +86,82 @@
 @media (max-width: 900px) {
   .category-Bar {
     justify-content: flex-start;
+    width: 100%;
+    gap: 8px;
+    padding: 8px 12px 10px;
+  }
+
+  .category-mobile-controls {
+    position: sticky;
+    top: 62px;
+    z-index: 900;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  .category-price-sticky {
+    position: sticky;
+    top: 238px;
+    z-index: 850;
+    width: 100%;
+    background: #fff;
+  }
+
+  .category-page-controls,
+  .space {
+    min-width: 0;
+  }
+
+  .category {
+    padding: 7px 6px;
+  }
+
+  .category img {
+    width: 54px;
+    height: 54px;
+  }
+
+  .category span {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+
+  .search-bar {
+    margin: 0;
+    padding: 10px 12px 6px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: 10px;
+    text-align: left;
+  }
+
+  .search-bar input:focus {
+    width: 100%;
+  }
+
+  .topDishes {
+    margin: 12px 0 8px;
+  }
+
+  .top-dishes-title {
+    padding: 0 12px;
+  }
+
+  .top-dishes-container {
+    gap: 10px;
+    padding: 6px 12px 10px;
+  }
+
+  .top-dish-card {
+    width: 145px;
+  }
+
+  .top-dish-image {
+    height: 105px;
   }
 }

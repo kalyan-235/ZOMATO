@@ -14,3 +14,13 @@
     .page-content {
       padding-top: 68px;
     }
+
+@media (max-width: 900px) {
+  .page-content {
+    padding-top: 62px;
+  }
+
+  body {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom));
+  }
+}

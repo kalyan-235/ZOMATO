@@ -136,3 +136,60 @@
       padding: 5px 80px;
       /* border: 1px solid green; */
     }
+
+@media (max-width: 900px) {
+  .space {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 12px 96px;
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .card {
+    min-width: 0;
+    border-radius: 12px;
+    padding: 8px;
+  }
+
+  .card img {
+    height: 116px;
+  }
+
+  .card h3 {
+    margin: 6px 0 3px;
+    overflow: hidden;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .rating {
+    font-size: 11px;
+  }
+
+  .price {
+    gap: 5px;
+  }
+
+  .price .old,
+  .price .new {
+    font-size: 11px;
+  }
+
+  .add-btn {
+    margin-left: auto;
+    padding: 5px 8px;
+  }
+
+  .restaurant {
+    overflow: hidden;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

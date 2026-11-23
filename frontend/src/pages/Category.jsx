@@ -56,17 +56,21 @@ function Category() {
     <>
       <div>
         <div className="space">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search food or restaurants..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className="category-mobile-controls">
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search food or restaurants..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Categories setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
           </div>
-          <Categories setSelectedCategory={setSelectedCategory} selectedCategory={selectedCategory} />
           <Top_dishes/>
-          <Prices setSelectedRange={setSelectedRange} selectedRange={selectedRange}/>
+          <div className="category-price-sticky">
+            <Prices setSelectedRange={setSelectedRange} selectedRange={selectedRange}/>
+          </div>
           <Card itemsData={filteredItems} />
         </div>
       </div>

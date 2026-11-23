@@ -147,6 +147,18 @@ const RestName = () => {
               {activeCategory === "ALL" ? "All Items" : activeCategory}
               <span className="rn-count">({displayed.length})</span>
             </h2>
+            <div className="rn-mobile-categories" aria-label="Item categories">
+              {categories.map((cat) => (
+                <button
+                  type="button"
+                  key={`mobile-${cat}`}
+                  className={`rn-mobile-cat ${activeCategory === cat ? "rn-mobile-cat-active" : ""}`}
+                  onClick={() => setCategory(cat)}
+                >
+                  {cat === "ALL" ? "All" : cat}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="rn-grid">

@@ -882,6 +882,22 @@
   margin-top: 0;
 }
 
+.restaurant-menu-image-preview {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.restaurant-menu-image-preview-error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #ffd1cf;
+  border-radius: 8px;
+  background: #fff3f2;
+  color: #a92c25;
+  font-size: 0.78rem;
+}
+
 .restaurant-order-actions button {
   min-height: 30px;
   padding: 5px 9px;
